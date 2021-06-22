@@ -1,6 +1,7 @@
 package io.github.foundationgames.phonos.screen;
 
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
+import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
@@ -13,6 +14,7 @@ import io.github.foundationgames.phonos.item.CustomMusicDiscItem;
 import io.github.foundationgames.phonos.util.SoundUtil;
 import io.github.foundationgames.phonos.screen.widget.WBasicButton;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.MusicDiscItem;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -154,10 +156,13 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
     @Override
     public void addPainters() {
         super.addPainters();
-        getRootPanel().setBackgroundPainter((x, y, widget) -> drawTexture(createTexture(TEXTURE, 0, 0, 176, 166, 256, 256), x-7, y-3, 176, 166));
-        discs.setBackgroundPainter((x, y, widget) -> {
+        getRootPanel().setBackgroundPainter(
+        		(stack, x, y, widget) -> drawTexture(stack, createTexture(TEXTURE, 0, 0, 176, 166, 256, 256), x-7, y-3, 176, 166)
+        		);
+        
+        discs.setBackgroundPainter((stack, x, y, widget) -> {
             for (int i = 0; i < 6; i++) {
-                if(blockInventory.getStack(i).isEmpty()) drawTexture(createTexture(TEXTURE, 176, 42, 18, 18, 256, 256), x+(i*18), y, 18, 18);
+                if(blockInventory.getStack(i).isEmpty()) drawTexture(stack, createTexture(TEXTURE, 176, 42, 18, 18, 256, 256), x+(i*18), y, 18, 18);
             }
         });
         playButton.setBackgroundPainter((x, y, mouseX, mouseY, button) -> {
@@ -239,11 +244,15 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
                 drawTexture(createTexture(TEXTURE, 176, 127, 13, 15, 256, 256), x+3, y, 13, 15);
             }
         });
-        pinvPanel.setBackgroundPainter((x, y, widget) -> {});
+        pinvPanel.setBackgroundPainter((stack, x, y, widget) -> {});
     }
 
     private static void drawTexture(Texture texture, int x, int y, int width, int height) {
-        ScreenDrawing.texturedRect(x, y, width, height, texture, 0xFFFFFF, 1.0f);
+        ScreenDrawing.texturedRect(new MatrixStack(), x, y, width, height, texture, 0xFFFFFF, 1.0f);
+    }
+    
+    private static void drawTexture(MatrixStack stack, Texture texture, int x, int y, int width, int height) {
+        ScreenDrawing.texturedRect(stack, x, y, width, height, texture, 0xFFFFFF, 1.0f);
     }
 
     private static Texture createTexture(Identifier texture, int u, int v, int width, int height, int texWidth, int texHeight) {

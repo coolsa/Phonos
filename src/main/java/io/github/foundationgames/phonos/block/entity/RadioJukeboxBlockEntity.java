@@ -27,7 +27,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MusicDiscItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -176,32 +176,32 @@ public class RadioJukeboxBlockEntity extends BlockEntity implements ExtendedScre
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
-        super.fromTag(tag);
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
         this.pitch = tag.getFloat("Pitch");
         this.doShuffle = tag.getBoolean("DoShuffle");
         items.clear();
-        CompoundTag durations = tag.getCompound("Durations");
+        NbtCompound durations = tag.getCompound("Durations");
         disc1Duration = durations.getInt("Track1");
         disc2Duration = durations.getInt("Track2");
         disc3Duration = durations.getInt("Track3");
         disc4Duration = durations.getInt("Track4");
         disc5Duration = durations.getInt("Track5");
         disc6Duration = durations.getInt("Track6");
-        Inventories.fromTag(tag, items);
-        CompoundTag playingMusic = tag.getCompound("PlayingMusic");
+        Inventories.readNbt(tag, items);
+        NbtCompound playingMusic = tag.getCompound("PlayingMusic");
         isPlaying = playingMusic.getBoolean("Playing");
         playingSong = playingMusic.getInt("Track");
         songProgress = playingMusic.getInt("Progress");
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        super.toTag(tag);
+    public NbtCompound writeNbt(NbtCompound tag) {
+        super.writeNbt(tag);
         tag.putFloat("Pitch", pitch);
         tag.putBoolean("DoShuffle", doShuffle);
-        Inventories.toTag(tag, items);
-        CompoundTag durations = new CompoundTag();
+        Inventories.writeNbt(tag, items);
+        NbtCompound durations = new NbtCompound();
         durations.putInt("Track1", disc1Duration);
         durations.putInt("Track2", disc2Duration);
         durations.putInt("Track3", disc3Duration);
@@ -209,7 +209,7 @@ public class RadioJukeboxBlockEntity extends BlockEntity implements ExtendedScre
         durations.putInt("Track5", disc5Duration);
         durations.putInt("Track6", disc6Duration);
         tag.put("Durations", durations);
-        CompoundTag playingMusic = new CompoundTag();
+        NbtCompound playingMusic = new NbtCompound();
         playingMusic.putBoolean("Playing", isPlaying);
         playingMusic.putInt("Track", playingSong);
         playingMusic.putInt("Progress", songProgress);
@@ -383,13 +383,13 @@ public class RadioJukeboxBlockEntity extends BlockEntity implements ExtendedScre
     //--------------------------------------------------------------------
 
     @Override
-    public void fromClientTag(CompoundTag compoundTag) {
-        this.fromTag(compoundTag);
+    public void fromClientTag(NbtCompound NbtCompound) {
+        this.readNbt(NbtCompound);
     }
 
     @Override
-    public CompoundTag toClientTag(CompoundTag compoundTag) {
-        return this.toTag(compoundTag);
+    public NbtCompound toClientTag(NbtCompound NbtCompound) {
+        return this.writeNbt(NbtCompound);
     }
 
     @Override

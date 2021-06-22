@@ -9,6 +9,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class MultiPositionedSoundInstance extends AbstractSoundInstance implemen
     private double x;
     private double y;
     private double z;
+    private float trueVol;
+    private PlayerEntity player = MinecraftClient.getInstance().player;
 
     private boolean done;
 
@@ -27,6 +30,7 @@ public class MultiPositionedSoundInstance extends AbstractSoundInstance implemen
     public MultiPositionedSoundInstance(List<Long> positions, Identifier sound, float volume, float pitch) {
         super(sound, SoundCategory.RECORDS);
         this.volume = volume;
+        this.trueVol = volume;
         this.pitch = pitch;
         this.positions = positions;
         updatePosition();
@@ -48,49 +52,46 @@ public class MultiPositionedSoundInstance extends AbstractSoundInstance implemen
     }
 
     private void updatePosition() {
-        PlayerEntity player = MinecraftClient.getInstance().player;
         BlockPos.Mutable mpos = new BlockPos.Mutable();
-        BlockPos pos = player.getBlockPos();
-        double tx = 0;
-        double ty = 0;
-        double tz = 0;
-        if(positions == null) {
-            setAsFarPositions(player);
-            return;
-        }
-        boolean near = false;
-        double bd = -1;
-        BlockPos bp = null;
+		Vec3d pos = new Vec3d(this.player.getX(), this.player.getEyeY(), this.player.getZ());
+		// start keeping track of average, weighted, positional vectors.
+		double dirX = 0;
+		double dirY = 0;
+		double dirZ = 0;
+		double weightTotal = 0;
+//		int spot = 0;
+//		boolean close = false;
         for(long l : positions) {
             mpos.set(l);
-            double d = mpos.getSquaredDistance(pos);
-            if(d < 950*(volume/2)) {
-                if(bd < 0 || d < bd) {
-                    bd = d;
-                    bp = mpos.toImmutable();
-                }
-            }
-            if(pos.isWithinDistance(mpos, 15*(volume/2))) near = true;
+			// start by getting the squared distance between the player and the block.
+			double squareDistance = mpos.getSquaredDistance(pos.x-0.5, pos.y, pos.z-0.5, false);
+			double weight = 2.0 / (squareDistance);
+			if(squareDistance > 64*64*64) continue;
+//			if(close && squareDistance >= 64) continue;
+			if(squareDistance <= 64) {
+//				System.out.println(mpos);
+				weight *= 64.0/squareDistance;
+//				if(!close)
+//					weightTotal *= Math.pow(squareDistance/8.0,spot);
+//				close = true;
+			}
+//			else if(close) weight *= 8.0/squareDistance;
+			dirX = dirX * weightTotal + mpos.getX() * weight;
+			dirY = dirY * weightTotal + mpos.getY() * weight;
+			dirZ = dirZ * weightTotal + mpos.getZ() * weight;
+			weightTotal += weight;
+			dirX /= weightTotal;
+			dirY /= weightTotal;
+			dirZ /= weightTotal;
+//			spot++;
         }
-        if(near) setAsPlayerPositions(player);
-        else if(bp != null) {
-            this.x = bp.getX()+0.5;
-            this.y = bp.getY()+0.5;
-            this.z = bp.getZ()+0.5;
-        }
-        else setAsFarPositions(player);
-    }
-
-    private void setAsFarPositions(PlayerEntity player) {
-        this.x = player.getPos().getX();
-        this.y = player.getPos().getY()+256;
-        this.z = player.getPos().getZ();
-    }
-
-    private void setAsPlayerPositions(PlayerEntity player) {
-        this.x = player.getPos().getX();
-        this.y = player.getPos().getY()+1;
-        this.z = player.getPos().getZ();
+		weightTotal = Math.min(Math.pow(weightTotal, 1.0 / this.trueVol) * this.trueVol, this.trueVol);
+		this.volume = (float) (this.trueVol * weightTotal);
+//		System.out.println(weightTotal + "\tweight");
+//		System.out.println("\n" + dirX + "\tdirX\n" + dirY + "\n" + dirZ);
+		this.x = dirX;
+		this.y = dirY;
+		this.z = dirZ;
     }
 
     @Override

@@ -5,7 +5,7 @@ import io.github.foundationgames.phonos.network.RecieverStorageOperation;
 import io.github.foundationgames.phonos.util.PhonosUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -26,7 +26,7 @@ public class RadioChannelState extends PersistentState {
         this.world = world;
     }
 
-    public void fromNbt(CompoundTag tag) {
+    public void fromNbt(NbtCompound tag) {
         channelStorage.clear();
         Set<String> channels = tag.getKeys();
         for(String c : channels) {
@@ -38,9 +38,9 @@ public class RadioChannelState extends PersistentState {
         }
         //Phonos.LOG.info("FROM TAG: "+channelStorage);
     }
-
+    
     @Override
-    public CompoundTag toNbt(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         //Phonos.LOG.info("TO TAG: "+channelStorage);
         for(int k : channelStorage.keySet()) {
             long[] la = new long[channelStorage.get(k).size()];
@@ -108,4 +108,5 @@ public class RadioChannelState extends PersistentState {
     public void tryStopSound(BlockPos origin, int channel) {
         for(ServerPlayerEntity player : world.getPlayers()) PayloadPackets.sendStopSound(player, origin, channel);
     }
+
 }

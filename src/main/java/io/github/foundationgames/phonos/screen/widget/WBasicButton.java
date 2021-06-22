@@ -2,6 +2,7 @@ package io.github.foundationgames.phonos.screen.widget;
 
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.foundationgames.phonos.screen.ExtendedBackgroundPainter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -46,17 +47,17 @@ public class WBasicButton extends WWidget {
     }
 
     @Override
-    public WWidget onMouseDown(int x, int y, int button) {
+    public InputResult onMouseDown(int x, int y, int button) {
         if(isWithinBounds(x, y) && enabled) this.clicked.apply(this, x, y, button);
         return super.onMouseDown(x, y, button);
     }
 
     @Override
-    public void onMouseScroll(int x, int y, double amount) {
-        super.onMouseScroll(x, y, amount);
+    public InputResult onMouseScroll(int x, int y, double amount) {
         if(isWithinBounds(x, y)) {
             scroll.apply(this, x, y, amount);
         }
+        return super.onMouseScroll(x, y, amount);
     }
 
     @FunctionalInterface

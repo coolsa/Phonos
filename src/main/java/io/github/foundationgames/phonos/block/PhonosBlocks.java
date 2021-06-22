@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.class_5810;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -22,13 +21,16 @@ public class PhonosBlocks {
     public static final Block GOURD_SPEAKER = registerExtra(new LoudspeakerBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD)), "gourd_speaker");
     public static final Block SPEAK_O_LANTERN = registerExtra(new LoudspeakerBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD).luminance(state -> 15)), "speak_o_lantern");
     public static final Block TINY_POTATO_SPEAKER = registerExtra(new PotatoSpeakerBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.CLEAR).strength(0.3F).sounds(BlockSoundGroup.WOOD)), "tiny_potato_speaker");
-    public static final Block OXIDIZED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.OXIDIZED_COPPER_BLOCK), class_5810.class_5811.field_28707, null);
-    public static final Block WEATHERED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.WEATHERED_COPPER_BLOCK), class_5810.class_5811.field_28706, OXIDIZED_COPPER_SPEAKER.getDefaultState());
-    public static final Block EXPOSED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.EXPOSED_COPPER_BLOCK), class_5810.class_5811.field_28705, WEATHERED_COPPER_SPEAKER.getDefaultState());
-    public static final Block COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.COPPER_BLOCK), class_5810.class_5811.field_28704, EXPOSED_COPPER_SPEAKER.getDefaultState());
-    public static final Block WAXED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_COPPER));
+
+    public static final Block OXIDIZED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.OXIDIZED_COPPER), Oxidizable.OxidizationLevel.OXIDIZED, null);
+    public static final Block WEATHERED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.WEATHERED_COPPER), Oxidizable.OxidizationLevel.WEATHERED, OXIDIZED_COPPER_SPEAKER.getDefaultState());
+    public static final Block EXPOSED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.EXPOSED_COPPER), Oxidizable.OxidizationLevel.EXPOSED, WEATHERED_COPPER_SPEAKER.getDefaultState());
+    public static final Block COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.COPPER_BLOCK), Oxidizable.OxidizationLevel.UNAFFECTED, EXPOSED_COPPER_SPEAKER.getDefaultState());
+
+    public static final Block WAXED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_COPPER_BLOCK));
     public static final Block WAXED_EXPOSED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_EXPOSED_COPPER));
     public static final Block WAXED_WEATHERED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_WEATHERED_COPPER));
+    public static final Block WAXED_OXIDIZED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_OXIDIZED_COPPER));
 
 
     public static BlockEntityType<RadioJukeboxBlockEntity> RADIO_JUKEBOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, Phonos.id("radio_jukebox"), FabricBlockEntityTypeBuilder.create(RadioJukeboxBlockEntity::new, RADIO_JUKEBOX).build(null));

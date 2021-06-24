@@ -22,10 +22,10 @@ public class PhonosBlocks {
     public static final Block SPEAK_O_LANTERN = registerExtra(new LoudspeakerBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD).luminance(state -> 15)), "speak_o_lantern");
     public static final Block TINY_POTATO_SPEAKER = registerExtra(new PotatoSpeakerBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.CLEAR).strength(0.3F).sounds(BlockSoundGroup.WOOD)), "tiny_potato_speaker");
 
-    public static final Block OXIDIZED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.OXIDIZED_COPPER), Oxidizable.OxidizationLevel.OXIDIZED, null);
-    public static final Block WEATHERED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.WEATHERED_COPPER), Oxidizable.OxidizationLevel.WEATHERED, OXIDIZED_COPPER_SPEAKER.getDefaultState());
-    public static final Block EXPOSED_COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.EXPOSED_COPPER), Oxidizable.OxidizationLevel.EXPOSED, WEATHERED_COPPER_SPEAKER.getDefaultState());
-    public static final Block COPPER_SPEAKER = new OxidizableLoudspeakerBlock(FabricBlockSettings.copy(Blocks.COPPER_BLOCK), Oxidizable.OxidizationLevel.UNAFFECTED, EXPOSED_COPPER_SPEAKER.getDefaultState());
+    public static final Block OXIDIZED_COPPER_SPEAKER = new OxidizableCopperSpeakerBlock(FabricBlockSettings.copy(Blocks.OXIDIZED_COPPER), Oxidizable.OxidizationLevel.OXIDIZED);
+    public static final Block WEATHERED_COPPER_SPEAKER = new OxidizableCopperSpeakerBlock(FabricBlockSettings.copy(Blocks.WEATHERED_COPPER), Oxidizable.OxidizationLevel.WEATHERED);
+    public static final Block EXPOSED_COPPER_SPEAKER = new OxidizableCopperSpeakerBlock(FabricBlockSettings.copy(Blocks.EXPOSED_COPPER), Oxidizable.OxidizationLevel.EXPOSED);
+    public static final Block COPPER_SPEAKER = new OxidizableCopperSpeakerBlock(FabricBlockSettings.copy(Blocks.COPPER_BLOCK), Oxidizable.OxidizationLevel.UNAFFECTED);
 
     public static final Block WAXED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_COPPER_BLOCK));
     public static final Block WAXED_EXPOSED_COPPER_SPEAKER = new LoudspeakerBlock(FabricBlockSettings.copy(Blocks.WAXED_EXPOSED_COPPER));

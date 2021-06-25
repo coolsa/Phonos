@@ -30,15 +30,23 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Artifice because some of the resources can be tedious
-  modImplementation "com.lettuce.fudge:artifice:0.15.5+21w07a"
-  include "com.lettuce.fudge:artifice:0.15.5+21w07a"
+	modImplementation "com.lettuce.fudge:artifice:0.15.5+21w07a"
+	include "com.lettuce.fudge:artifice:0.15.5+21w07a"
 
 	// LibGui because yes
 	modImplementation "local-repo:LibGui-4.0.0+1.17"
 	include "local-repo:LibGui-4.0.0+1.17"
+	
+	// LibGui needs this for gradle now.
+	modImplementation 'io.github.juuxel:libninepatch:1.1.0'
+	include 'io.github.juuxel:libninepatch:1.1.0'
 
 	modImplementation "io.github.cottonmc:Jankson-Fabric:3.0.1+j1.2.0"
 	include "io.github.cottonmc:Jankson-Fabric:3.0.1+j1.2.0"
+	
+	// Using oxidizelib because oxidizable blocks are HARD
+	modImplementation "com.shnupbups:oxidizelib:1.1.0+fabric-mc1.17"
+	include "com.shnupbups:oxidizelib:1.1.0+fabric-mc1.17"
 
 	modImplementation "me.zeroeightsix:fiber:0.23.0-2"
 	include "me.zeroeightsix:fiber:0.23.0-2"

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class PhonosResources {
 
     public static void init() {
-        Artifice.registerAssets(Phonos.id("resource_pack"), pack -> {
+        Artifice.registerAssetPack(Phonos.id("resource_pack"), pack -> {
             pack.addItemModel(Phonos.id("channel_tuner"), builder -> {
                 builder.parent(new Identifier("item/handheld")).texture("layer0", Phonos.id("item/channel_tuner"));
                 for (int i = 0; i < 20; i++) {
@@ -213,6 +213,12 @@ public class PhonosResources {
                     builder.variant("channel="+i, variant -> variant.model(Phonos.id("block/weathered_copper_speaker_tuned_"+ii)));
                 }
             });
+            pack.addBlockState(Phonos.id("waxed_oxidized_copper_speaker"), builder -> {
+                for (int i = 0; i < 20; i++) {
+                    int ii = i;
+                    builder.variant("channel="+i, variant -> variant.model(Phonos.id("block/oxidized_copper_speaker_tuned_"+ii)));
+                }
+            });
             pack.addBlockState(Phonos.id("tiny_potato_speaker"), builder -> {
                 for (int i = 0; i < 20; i++) {
                     int ii = i;
@@ -352,6 +358,16 @@ public class PhonosResources {
                     .texture("south", Phonos.id("block/weathered_copper_speaker_side"))
                     .texture("east", Phonos.id("block/weathered_copper_speaker_side"))
                     .texture("west", Phonos.id("block/weathered_copper_speaker_side"))
+                    .texture("down", Phonos.id("block/speaker_bottom"))
+                    .texture("up", Phonos.id("block/copper_speaker_top"))
+            );
+            pack.addItemModel(Phonos.id("waxed_oxidized_copper_speaker"), builder -> builder
+                    .parent(new Identifier("block/cube"))
+                    .texture("particle", Phonos.id("block/oxidized_copper_speaker_side"))
+                    .texture("north", Phonos.id("block/oxidized_copper_speaker_side"))
+                    .texture("south", Phonos.id("block/oxidized_copper_speaker_side"))
+                    .texture("east", Phonos.id("block/oxidized_copper_speaker_side"))
+                    .texture("west", Phonos.id("block/oxidized_copper_speaker_side"))
                     .texture("down", Phonos.id("block/speaker_bottom"))
                     .texture("up", Phonos.id("block/copper_speaker_top"))
             );

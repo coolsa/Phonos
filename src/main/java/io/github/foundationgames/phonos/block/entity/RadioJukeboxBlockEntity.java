@@ -115,14 +115,10 @@ public class RadioJukeboxBlockEntity extends BlockEntity
 		int d = getDuration(slot);
 		this.songProgress = d * 20;
 		isPlaying = true;
-		System.out.println(items.get(slot));
 		if (!world.isClient()) {
-			System.out.println("asdf");
 			RadioChannelState pstate = PhonosUtil.getRadioState((ServerWorld) world);
 			ItemStack disc = items.get(slot);
-			System.out.println("disc");
 			if (disc.getItem() instanceof MusicDiscItem) {
-				System.out.println("using pstate");
 				pstate.playSound(pos, ((MusicDiscItemAccess) disc.getItem()).getSoundEvent(), getChannel(), 1.8f, pitch,
 						true);
 			}
@@ -155,7 +151,6 @@ public class RadioJukeboxBlockEntity extends BlockEntity
 			if (self.songProgress <= 0) {
 				int nextSong = self.playingSong + 1;
 				if (nextSong <= 5 && !self.items.get(nextSong).isEmpty()) {
-					System.out.println("attempting to play next song");
 					self.playSong(nextSong);
 				} else
 					self.playOrStop();
@@ -171,7 +166,6 @@ public class RadioJukeboxBlockEntity extends BlockEntity
 
 	public void nextSong() {
 		if (isPlaying && playingSong < 5) {
-			System.out.println(playingSong);
 			int nextSong = playingSong + 1;
 			if (!items.get(nextSong).isEmpty())
 				playSong(nextSong);

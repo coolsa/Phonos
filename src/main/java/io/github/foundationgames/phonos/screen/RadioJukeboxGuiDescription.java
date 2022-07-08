@@ -20,7 +20,7 @@ import net.minecraft.item.MusicDiscItem;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
@@ -49,7 +49,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
         //WText utitle = new WText(new TranslatableText("container.phonos.radio_jukebox.title"), 0x252525);
         //utitle.setSize(51, 15);
         //root.add(utitle, 0, 3);
-        WLabel title = new WLabel(new TranslatableText("container.phonos.radio_jukebox.title"), 0x252525);
+        WLabel title = new WLabel(Text.translatable("container.phonos.radio_jukebox.title"), 0x252525);
         title.setSize(51, 15);
         root.add(title, 0, 3);
 
@@ -62,7 +62,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
         WBasicButton playButton = new WBasicButton(19, 14);
         playButton.setWhenClicked((button, x, y, mouseButton) -> {
             if(blockEntity != null) blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.Ops.PLAY_STOP, 0);
-            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, this.playerInventory.player.getBlockPos());
+            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
         });
         this.playButton = playButton;
         root.add(playButton, 71, 2);
@@ -70,7 +70,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
         //SKIP BUTTONS --------------------------------------------------------------------------------------------------------------------
         WBasicButton forwardButton = new WBasicButton(18, 14);
         forwardButton.setWhenClicked((button, x, y, mouseButton) -> {
-            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, this.playerInventory.player.getBlockPos());
+            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
             if(blockEntity != null) blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.Ops.NEXT_SONG, 0);
         });
         this.forwardButton = forwardButton;
@@ -78,7 +78,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
 
         WBasicButton backButton = new WBasicButton(18, 14);
         backButton.setWhenClicked((button, x, y, mouseButton) -> {
-            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, this.playerInventory.player.getBlockPos());
+            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
             if(blockEntity != null) blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.Ops.PREV_SONG, 0);
         });
         this.backButton = backButton;
@@ -88,7 +88,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
         WBasicButton shuffleButton = new WBasicButton(15, 13);
         shuffleButton.setWhenClicked((button, x, y, mouseButton) -> {
             if(blockEntity != null) blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.Ops.SET_SHUFFLE, blockEntity.doShuffle ? 0 : 1);
-            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, this.playerInventory.player.getBlockPos());
+            SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0f, 1.57f, blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
         });
         this.shuffleButton = shuffleButton;
         root.add(shuffleButton, 143, 40);
@@ -106,7 +106,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
             value = Math.min(Math.max(1, value), 20);
             if(!g) {
                 blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.Ops.SET_PITCH, value);
-                SoundUtil.playPositionedSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.MASTER, 0.3f, (float)value / 10, this.playerInventory.player.getBlockPos());
+                SoundUtil.playPositionedSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.MASTER, 0.3f, (float)value / 10, blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
                 return InputResult.IGNORED;
             }
             return InputResult.IGNORED;
@@ -138,7 +138,7 @@ public class RadioJukeboxGuiDescription extends SyncedGuiDescription {
                 dur = Math.min(Math.max(1, dur), 599);
                 if(!g) {
                     blockEntity.performSyncedOperation(RadioJukeboxBlockEntity.SLOT_2_OP.get(fi), dur);
-                    SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 0.1f, 1.85f - (s ? 0.3f : 0), this.playerInventory.player.getBlockPos());
+                    SoundUtil.playPositionedSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 0.1f, 1.85f - (s ? 0.3f : 0), blockEntity.getWorld().getRandom(), this.playerInventory.player.getBlockPos());
                     return InputResult.PROCESSED;
                 }
                 return InputResult.IGNORED;

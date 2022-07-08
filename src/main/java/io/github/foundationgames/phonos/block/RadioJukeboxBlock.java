@@ -5,7 +5,6 @@ import io.github.foundationgames.phonos.block.entity.RadioJukeboxBlockEntity;
 import io.github.foundationgames.phonos.item.ChannelTunerItem;
 import io.github.foundationgames.phonos.util.PhonosUtil;
 import io.github.foundationgames.phonos.world.RadioChannelState;
-import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
 import net.minecraft.entity.player.PlayerEntity;

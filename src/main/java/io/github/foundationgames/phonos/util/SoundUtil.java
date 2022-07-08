@@ -7,9 +7,10 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 
 public enum SoundUtil {;
-    public static void playPositionedSound(SoundEvent event, SoundCategory category, float volume, float pitch, BlockPos pos) {
-        if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) MinecraftClient.getInstance().getSoundManager().play(new PositionedSoundInstance(event, category, volume, pitch, pos));
+    public static void playPositionedSound(SoundEvent event, SoundCategory category, float volume, float pitch, Random random, BlockPos pos) {
+        if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) MinecraftClient.getInstance().getSoundManager().play(new PositionedSoundInstance(event, category, volume, pitch, random, pos));
     }
 }

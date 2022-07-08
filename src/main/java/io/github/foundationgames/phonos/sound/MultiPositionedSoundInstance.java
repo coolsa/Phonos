@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 
 import java.util.Set;
 
@@ -22,12 +23,12 @@ public class MultiPositionedSoundInstance extends AbstractSoundInstance implemen
     
     private boolean done;
 
-    public MultiPositionedSoundInstance(Set<BlockPos> blocks, Set<Entity> entities, SoundEvent sound, float volume, float pitch) {
-        this(blocks, entities, sound.getId(), volume, pitch);
+    public MultiPositionedSoundInstance(Set<BlockPos> blocks, Set<Entity> entities, SoundEvent sound, float volume, float pitch, Random random) {
+        this(blocks, entities, sound.getId(), volume, pitch, random);
     }
 
-    public MultiPositionedSoundInstance(Set<BlockPos> blocks, Set<Entity> entities, Identifier sound, float volume, float pitch) {
-        super(sound, SoundCategory.RECORDS);
+    public MultiPositionedSoundInstance(Set<BlockPos> blocks, Set<Entity> entities, Identifier sound, float volume, float pitch, Random random) {
+        super(sound, SoundCategory.RECORDS, random);
         this.volume = volume;
         this.pitch = pitch;
         this.blocks = blocks;
